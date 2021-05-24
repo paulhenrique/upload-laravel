@@ -41,33 +41,18 @@ class UploadController extends Controller
      */
     public function store(Request $request)
     {
+        // foreach ($request->file('img_path') as $img_path) {
+        //     $imageName = $img_path->getClientOriginalName();
+        //     $img_path->move(public_path() . '/img/uploads', $imageName);
+        //     $imageData[] = $imageName;
+        // }
+        $upload = new upload();
+        $imageName = rand() . '.png';
+        $upload->img_name = $imageName;
+        $upload->img_path = $request->img_path;
+        $upload->save();
 
-        // $request->validate($this->getRules());
-
-        // $upload->fill($this->getSafeInput($request));
-
-        // dd($request);
-
-        $imageData = [];
-        if ($request->hasFile('img_path')) {
-            foreach ($request->file('img_path') as $img_path) {
-                $imageName = $img_path->getClientOriginalName();
-                $img_path->move(public_path().'/img/uploads', $imageName);
-                $imageData[] = $imageName;
-                // dd($imageData);
-            }
-
-            $upload = new upload();
-            $upload->img_name = $imageName;
-            $upload->img_path = json_encode($imageData);
-            $upload->save();
-
-            return redirect("images");
-        } else {
-            echo "oi";
-        }
-
-
+        return redirect("images");
     }
 
     /**
